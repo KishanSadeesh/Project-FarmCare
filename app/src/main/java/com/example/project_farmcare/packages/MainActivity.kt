@@ -1,12 +1,11 @@
-package com.example.project_farmcare
+package com.example.project_farmcare.packages
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.NavController
 import androidx.navigation.Navigation
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
+import com.example.project_farmcare.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
