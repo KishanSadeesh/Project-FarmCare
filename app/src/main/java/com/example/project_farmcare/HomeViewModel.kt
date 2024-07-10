@@ -8,6 +8,8 @@ import com.example.project_farmcare.pojo.Category
 import com.example.project_farmcare.pojo.CategoryList
 import com.example.project_farmcare.pojo.Meal
 import com.example.project_farmcare.pojo.MealList
+import com.example.project_farmcare.pojo.MealsByCategory
+import com.example.project_farmcare.pojo.MealsByCategoryList
 import com.example.project_farmcare.retrofit.RetrofitInstance
 import retrofit2.Call
 import retrofit2.Callback
@@ -15,7 +17,8 @@ import retrofit2.Response
 
 class HomeViewModel:ViewModel() {
     private val randomMealLiveData = MutableLiveData<Meal>()
-    private var categoryLiveData = MutableLiveData<List<Category>>()
+    private var categoriesLiveData = MutableLiveData<List<Category>>()
+   /* private var mealsByCategoryLiveData = MutableLiveData<List<MealsByCategory>>()*/
 
     fun getRandomMeal()
     {
@@ -39,8 +42,19 @@ class HomeViewModel:ViewModel() {
 
     fun getCategories(){
         RetrofitInstance.api.getCategories().enqueue(object : Callback<CategoryList> {
-            override fun onResponse(call: Call<CategoryList>, response: Response<CategoryList>) {
-                response.body()?.let { categoryList -> categoryLiveData.postValue(categoryList.categories) }
+            /*override fun onResponse(call: Call<MealsByCategoryList>, response: Response<CategoryList>) {
+                response.body()?.let { categoryList -> mealsByCategoryLiveData.postValue(categoryList.meals) }
+            }
+
+            override fun onFailure(p0: Call<MealsByCategoryList>, p1: Throwable) {
+                Log.e("HomeViewModel", p1.message.toString())
+            }*/
+
+            override fun onResponse(
+                call: Call<CategoryList>, response : Response<CategoryList>) {
+                    response.body()?.let { categoryList ->
+                        categoriesLiveData.postValue(categoryList.categories)
+                    }
             }
 
             override fun onFailure(p0: Call<CategoryList>, p1: Throwable) {
@@ -54,7 +68,7 @@ class HomeViewModel:ViewModel() {
         return randomMealLiveData
     }
     fun observeCategoriesLiveData():LiveData<List<Category>>{
-        return categoryLiveData
+        return categoriesLiveData
     }
 
 }
