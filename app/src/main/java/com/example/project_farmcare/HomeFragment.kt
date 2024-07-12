@@ -19,8 +19,13 @@ class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var homeMvvm: HomeViewModel
     private lateinit var categoriesAdapter: CategoriesAdapter
+    private lateinit var randomMeal: Meal
 
     companion object{
+        const val MEAL_ID =     "com.example.project_farmcare.idMeal"
+        const val MEAL_NAME =     "com.example.project_farmcare.nameMeal"
+        const val MEAL_THUMB =     "com.example.project_farmcare.thumbMeal"
+
         const val CATEGORY_NAME = "com.example.project_farmcare.categoryName"
     }
 
@@ -47,7 +52,7 @@ class HomeFragment : Fragment() {
 
         homeMvvm.getRandomMeal()
         observeRandomMeal()
-
+        onRandomMealClick()
         categoriesRecyclerView()
 
         homeMvvm.getCategories()
@@ -55,6 +60,16 @@ class HomeFragment : Fragment() {
 
         onCategoryClick()
 
+    }
+
+    private fun onRandomMealClick() {
+        binding.imgRandomMeal.setOnClickListener({
+            val intent = Intent(activity, MealActivity::class.java)
+            intent.putExtra(MEAL_ID,randomMeal.idMeal)
+            intent.putExtra(MEAL_NAME, randomMeal.strMeal)
+            intent.putExtra(MEAL_THUMB, randomMeal.strMealThumb)
+            startActivity(intent)
+        })
     }
 
     private fun onCategoryClick() {
@@ -81,12 +96,12 @@ class HomeFragment : Fragment() {
     }
 
     private fun observeRandomMeal() {
-        homeMvvm.observeRandomMealLiveData().observe(viewLifecycleOwner,object : Observer<Meal> {
-            override fun onChanged(value: Meal) {
+        homeMvvm.observeRandomMealLiveData().observe(viewLifecycleOwner, {
+            meal ->
                 Glide.with(this@HomeFragment)
-                        .load(value.strMealThumb)
+                        .load(meal.strMealThumb)
                         .into(binding.imgRandomMeal)
-            }
+                this.randomMeal = meal
         })
     }
 
