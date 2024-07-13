@@ -7,17 +7,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
 import com.example.project_farmcare.Adapters.CategoriesAdapter
 import com.example.project_farmcare.databinding.FragmentHomeBinding
 import com.example.project_farmcare.packages.CategoryMealsActivity
+import com.example.project_farmcare.packages.MainActivity
+import com.example.project_farmcare.packages.MealActivity
 import com.example.project_farmcare.pojo.Meal
 
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
-    private lateinit var homeMvvm: HomeViewModel
+    private lateinit var viewModel: HomeViewModel
     private lateinit var categoriesAdapter: CategoriesAdapter
     private lateinit var randomMeal: Meal
 
@@ -31,7 +32,7 @@ class HomeFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        homeMvvm = ViewModelProviders.of(this)[HomeViewModel::class.java]
+        viewModel = (activity as MainActivity).viewModel
 
     }
 
@@ -50,12 +51,12 @@ class HomeFragment : Fragment() {
         super.onViewCreated (view, savedInstanceState)
 
 
-        homeMvvm.getRandomMeal()
+        viewModel.getRandomMeal()
         observeRandomMeal()
         onRandomMealClick()
         categoriesRecyclerView()
 
-        homeMvvm.getCategories()
+        viewModel.getCategories()
         observeCategoriesLiveData()
 
         onCategoryClick()
@@ -89,14 +90,14 @@ class HomeFragment : Fragment() {
     }
 
     private fun observeCategoriesLiveData() {
-        homeMvvm.observeCategoriesLiveData().observe(viewLifecycleOwner, Observer { categories ->
+        viewModel.observeCategoriesLiveData().observe(viewLifecycleOwner, Observer { categories ->
             categoriesAdapter.setCategoryList(categories)
         })
 
     }
 
     private fun observeRandomMeal() {
-        homeMvvm.observeRandomMealLiveData().observe(viewLifecycleOwner, {
+        viewModel.observeRandomMealLiveData().observe(viewLifecycleOwner, {
             meal ->
                 Glide.with(this@HomeFragment)
                         .load(meal.strMealThumb)
