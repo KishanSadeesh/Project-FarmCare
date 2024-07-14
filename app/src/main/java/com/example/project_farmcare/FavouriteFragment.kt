@@ -8,9 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import com.example.project_farmcare.Adapters.FavouritesMealsAdapter
 import com.example.project_farmcare.databinding.FragmentFavouriteBinding
 import com.example.project_farmcare.packages.MainActivity
+import com.google.android.material.snackbar.Snackbar
 
 class FavouriteFragment : Fragment() {
     private lateinit var binding: FragmentFavouriteBinding
@@ -37,6 +40,31 @@ class FavouriteFragment : Fragment() {
 
         prepareRecyclerView()
         observeFavourites()
+
+        val itemtouchHelper = object : ItemTouchHelper.SimpleCallback (
+            ItemTouchHelper.UP or ItemTouchHelper.DOWN,
+            ItemTouchHelper.RIGHT or ItemTouchHelper.LEFT
+        ){
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ) =  true
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val position = viewHolder.adapterPosition
+                viewModel.deleteMeal(favouritesAdapter.differ.currentList[position])
+
+                Snackbar.make(requireView(), "Meal Deleted", Snackbar.LENGTH_LONG).setAction(
+                    "Undo",
+                    View.OnClickListener {
+                        viewModel.insertMeal(favouritesAdapter.differ.currentList[position])
+                    }
+                ).show()
+            }
+
+        }
+        ItemTouchHelper(itemtouchHelper).attachToRecyclerView(binding.favRecyclerView)
     }
 
     private fun prepareRecyclerView() {

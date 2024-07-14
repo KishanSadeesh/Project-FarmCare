@@ -16,6 +16,7 @@ import com.example.project_farmcare.MealViewModelFactory
 import com.example.project_farmcare.databinding.ActivityMealBinding
 import com.example.project_farmcare.db.MealDatabase
 import com.example.project_farmcare.pojo.Meal
+import com.google.android.material.snackbar.Snackbar
 
 class MealActivity : AppCompatActivity() {
     private lateinit var mealId : String
@@ -49,7 +50,7 @@ class MealActivity : AppCompatActivity() {
         binding.btnFav.setOnClickListener{
             mealToSave?.let {
                 mealMvvm.insertMeal(it)
-                Toast.makeText(this, "Meal Saved", Toast.LENGTH_SHORT).show()
+                Snackbar.make(binding.root, "Meal Saved", Snackbar.LENGTH_SHORT).show()
             }
         }
     }

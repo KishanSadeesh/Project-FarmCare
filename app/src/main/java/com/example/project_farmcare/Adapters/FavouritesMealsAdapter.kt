@@ -8,12 +8,13 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.project_farmcare.FavouriteFragment
+import com.example.project_farmcare.databinding.CategoryitemBinding
 import com.example.project_farmcare.databinding.FragmentFavouriteBinding
 import com.example.project_farmcare.databinding.MealItemBinding
 import com.example.project_farmcare.pojo.Meal
 
 class FavouritesMealsAdapter: RecyclerView.Adapter<FavouritesMealsAdapter.FavouritesMealsViewHolder>() {
-    inner class FavouritesMealsViewHolder(val binding: MealItemBinding): RecyclerView.ViewHolder(binding.root)
+    inner class FavouritesMealsViewHolder(val binding: CategoryitemBinding): RecyclerView.ViewHolder(binding.root)
 
     private val diffUtil = object : DiffUtil.ItemCallback<Meal>(){
         override fun areItemsTheSame(oldItem: Meal, newItem: Meal): Boolean {
@@ -29,7 +30,7 @@ class FavouritesMealsAdapter: RecyclerView.Adapter<FavouritesMealsAdapter.Favour
     val differ = AsyncListDiffer(this, diffUtil)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavouritesMealsViewHolder {
         return FavouritesMealsViewHolder(
-            MealItemBinding.inflate(
+            CategoryitemBinding.inflate(
                 LayoutInflater.from(parent.context), parent, false
             )
         )
@@ -41,8 +42,8 @@ class FavouritesMealsAdapter: RecyclerView.Adapter<FavouritesMealsAdapter.Favour
 
     override fun onBindViewHolder(holder: FavouritesMealsViewHolder, position: Int) {
         val meal = differ.currentList[position]
-        Glide.with(holder.itemView).load(meal.strMealThumb).into(holder.binding.imgMeal)
-        holder.binding.tvMealName.text = meal.strMeal
+        Glide.with(holder.itemView).load(meal.strMealThumb).into(holder.binding.imgCategory)
+        holder.binding.tvCategoryName.text = meal.strMeal
     }
 
 }
