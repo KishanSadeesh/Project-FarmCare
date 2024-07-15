@@ -22,4 +22,6 @@
     <color name="colorSecondaryVariant">#018786</color>
     <color name="colorOnSecondary">#000000</color>
 
+    <color name="g_grey">#E6E6E6</color>
+
 </resources>

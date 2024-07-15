@@ -1,19 +1,15 @@
 package com.example.project_farmcare.Adapters
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.project_farmcare.FavouriteFragment
 import com.example.project_farmcare.databinding.CategoryitemBinding
-import com.example.project_farmcare.databinding.FragmentFavouriteBinding
-import com.example.project_farmcare.databinding.MealItemBinding
 import com.example.project_farmcare.pojo.Meal
 
-class FavouritesMealsAdapter: RecyclerView.Adapter<FavouritesMealsAdapter.FavouritesMealsViewHolder>() {
+class MealsAdapter: RecyclerView.Adapter<MealsAdapter.FavouritesMealsViewHolder>() {
     inner class FavouritesMealsViewHolder(val binding: CategoryitemBinding): RecyclerView.ViewHolder(binding.root)
 
     private val diffUtil = object : DiffUtil.ItemCallback<Meal>(){
